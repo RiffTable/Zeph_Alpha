@@ -1,10 +1,26 @@
+/*
+    activity[USERID] = {id: "ActivityName", args: {...}}
+
+
+*/
+
+/*  ACTIVITY HANDLER FUNCTION
+*   find function from list by activity id
+    AHFunc(args, message)
+*/
+
+
+
 const Discord = require('discord.js');
 
 //const actHNDL = require('./activity_HNDL.js');
-const datasFromFile = require('./BetaBot.js');
-const client = datasFromFile.client;
+const indexFile = require('./Alphabot');
+const client = indexFile.client;
+
+//const scripts = require('./library');
 
 //IMPORT COMMANDS
+//msgEmb = new scripts.msgEmb;
 
 
 
@@ -22,26 +38,26 @@ fs.readFile('./ServerConfig.json', 'utf-8', (err, data) => {
 /******CONSTANTS & VARIABLES******/
 const userID = '856191064393908234';
 
-/*
-    activity[USERID] = {id: "ActivityName", args: {...}}
 
 
-*/
 
-/*  ACTIVITY HANDLER FUNCTION
-*   find function from list by activity id
-    AHFunc(args, message)
-*/
+/******FUNCTIONS******/
+function updateSConfig(){
+    fs.writeFile('./ServerConfig.json', JSON.stringify(serverData, null, 2), (err) => {
+        if(err) console.log(err);
+        else console.log('---Updated Server Config file');
+    });
+}
+
+
 
 
 const commands = {
-    
+    eh
 };
 
 
 
-const updateSConfig = datasFromFile.updateSConfig;
-const msgEmb = datasFromFile.msgEmb;
 
 function ShowTime(time){
     let date = new Date(time);
@@ -63,21 +79,20 @@ module.exports = function(message){
     else if(!serverData[message.guild.id])
     {
         serverData[message.guild.id] = {};
-        serverData[message.guild.id].prefix = '~';
+        serverData[message.guild.id].prefix = '}';
         updateSConfig();
     }
-    /*****************CHECK FOR ACTIVITY*****************/
+    /*****************HANDLE ACTIVITIES*****************/
     /*else if(global.activity[message.author.id])
     {
         actHNDL.handler(message);
     }*/
-    /*****************COMMAND BY PREFIX*****************/
+    /*****************HANDLE COMMANDS*****************/
     else if(message.content.startsWith(serverData[message.guild.id].prefix)){
         //commands
         let args = message.content.substring(serverData[message.guild.id].prefix.length, message.content.length).split(' ');
         const cmd = args.shift();
 
-        //commands[cmd](args, message);
         try{
             commands[cmd](args, message);
         }catch{}
@@ -89,6 +104,9 @@ module.exports = function(message){
 
 
 
+function eh(args, message){
+    message.channel.send('eh');
+}
 
 
 

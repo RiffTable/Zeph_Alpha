@@ -5,9 +5,9 @@
   "main": "Alphabot.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node BetaBot.js"
+    "start": "node Alphabot.js"
   },
-  "author": "",
+  "author": "_Riff",
   "license": "ISC",
   "engines": {
     "node": "14.17.1",

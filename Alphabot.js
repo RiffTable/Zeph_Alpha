@@ -11,13 +11,8 @@ module.exports.client = client;
 
 
 //Functions
-module.exports.updateSConfig = function(){
-    fs.writeFile('./ServerConfig.json', JSON.stringify(serverData, null, 2), (err) => {
-        if(err) console.log(err);
-        else console.log('---Updated Server Config file');
-    });
-}
 
+/*
 module.exports.msgEmb = new function(channel, title, desc){
     const emb = new Discord.MessageEmbed()
     .setTitle(title)
@@ -27,6 +22,7 @@ module.exports.msgEmb = new function(channel, title, desc){
 
     return channel.send(emb);
 }
+*/
 
 
 
@@ -47,11 +43,10 @@ client.on('message', msgHNDL);
 
 
 
-let falseanyway = false;
-if(falseanyway){
+if(1 && 0){
     //testing
     client.on('message', (message) => {
-        
+    
 
 
     });
