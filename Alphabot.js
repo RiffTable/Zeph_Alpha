@@ -1,3 +1,16 @@
+/*****
+-------------------------------TODO-------------------------------
+
+
+
+*****/
+
+// User ID: 856191064393908234
+// 
+// Invite Link: https://discord.com/api/oauth2/authorize?client_id=856191064393908234&permissions=2218131008&scope=bot
+// 
+// 
+
 //Initializations
 require('dotenv').config();
 const fs = require('fs');
@@ -6,23 +19,8 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 module.exports.client = client;
 
+const msgHNDL = require('./command_HNDL');
 
-
-
-
-//Functions
-
-/*
-module.exports.msgEmb = new function(channel, title, desc){
-    const emb = new Discord.MessageEmbed()
-    .setTitle(title)
-    .setColor('44a0cc')
-    .setDescription(desc)
-    .setFooter('Made by BetaBot');
-
-    return channel.send(emb);
-}
-*/
 
 
 
@@ -35,22 +33,20 @@ client.on('ready', () =>{
     console.log("-------Ready o7-------");
 });
 
-const msgHNDL = require('./command_HNDL');
 
-client.on('message', msgHNDL);
-
-
-
-
-
-if(1 && 0){
-    //testing
+let testingMode = false;
+if(testingMode){
     client.on('message', (message) => {
     
-
+        message.react()
 
     });
-}
+}else
+    client.on('message', msgHNDL);
+
+
+
+
 
 //Login
 client.login(process.env.BOTTOKEN);

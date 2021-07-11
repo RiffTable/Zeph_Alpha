@@ -10,17 +10,14 @@
 */
 
 
+const actHNDL = require('./activity_HNDL');
 
-const Discord = require('discord.js');
 
-//const actHNDL = require('./activity_HNDL.js');
-const indexFile = require('./Alphabot');
-const client = indexFile.client;
+const scripts = require('./library');
 
-//const scripts = require('./library');
 
 //IMPORT COMMANDS
-//msgEmb = new scripts.msgEmb;
+msgEmb = scripts.msgEmb;
 
 
 
@@ -49,11 +46,15 @@ function updateSConfig(){
     });
 }
 
+/******COMMANDS FROM FILES******/
+const t = require('./commands/cmd_t');
 
 
 
 const commands = {
-    eh
+    eh,
+    emb,
+    t
 };
 
 
@@ -79,19 +80,20 @@ module.exports = function(message){
     else if(!serverData[message.guild.id])
     {
         serverData[message.guild.id] = {};
-        serverData[message.guild.id].prefix = '}';
+        serverData[message.guild.id].prefix = '~';
         updateSConfig();
     }
     /*****************HANDLE ACTIVITIES*****************/
-    /*else if(global.activity[message.author.id])
+    else if(global.activity[message.author.id])
     {
         actHNDL.handler(message);
-    }*/
+    }
     /*****************HANDLE COMMANDS*****************/
     else if(message.content.startsWith(serverData[message.guild.id].prefix)){
         //commands
         let args = message.content.substring(serverData[message.guild.id].prefix.length, message.content.length).split(' ');
-        const cmd = args.shift();
+        const cmd = args.shift().toLowerCase();
+        var k = '';
 
         try{
             commands[cmd](args, message);
@@ -108,6 +110,9 @@ function eh(args, message){
     message.channel.send('eh');
 }
 
+function emb(args, message){
+    msgEmb(message.channel, 'EMBEDDED MESSAGE', args.join(' '));
+}
 
 
 
