@@ -23,11 +23,20 @@ msgEmb = scripts.msgEmb;
 
 //Access the Server Configuration JSON file
 const fs = require('fs');
-var serverData;
+global.serverData;
 fs.readFile('./ServerConfig.json', 'utf-8', (err, data) => {
     if(err) console.log(err);
     else{
-        serverData = JSON.parse(data);
+        global.serverData = JSON.parse(data);
+    }
+});
+
+//Access the Profile Data JSON file
+global.profiles;
+fs.readFile('./ProfileData.json', 'utf-8', (err, data) => {
+    if(err) console.log(err);
+    else{
+        global.profiles = JSON.parse(data);
     }
 });
 
@@ -40,11 +49,21 @@ const userID = '856191064393908234';
 
 /******FUNCTIONS******/
 function updateSConfig(){
-    fs.writeFile('./ServerConfig.json', JSON.stringify(serverData, null, 2), (err) => {
+    fs.writeFile('./ServerConfig.json', JSON.stringify(global.serverData, null, 2), (err) => {
         if(err) console.log(err);
         else console.log('---Updated Server Config file');
     });
 }
+
+function updateProfile(){
+    fs.writeFile('./ProfileData.json', JSON.stringify(global.profiles, null, 2), (err) => {
+        if(err) console.log(err);
+        else console.log('---Updated Profile data');
+    });
+}
+
+
+
 
 /******COMMANDS FROM FILES******/
 const t = require('./commands/cmd_t');
@@ -77,10 +96,9 @@ module.exports = function(message){
     if(message.author.id === userID){}
     
     /*****************CHECK IF SERVER CONFIG EXISTS*****************/
-    else if(!serverData[message.guild.id])
+    else if(!global.serverData[message.guild.id])
     {
-        serverData[message.guild.id] = {};
-        serverData[message.guild.id].prefix = '~';
+        global.serverData[message.guild.id] = {prefix: '~'};
         updateSConfig();
     }
     /*****************HANDLE ACTIVITIES*****************/
@@ -89,15 +107,21 @@ module.exports = function(message){
         actHNDL.handler(message);
     }
     /*****************HANDLE COMMANDS*****************/
-    else if(message.content.startsWith(serverData[message.guild.id].prefix)){
+    else if(message.content.startsWith(global.serverData[message.guild.id].prefix)){
         //commands
-        let args = message.content.substring(serverData[message.guild.id].prefix.length, message.content.length).split(' ');
+        let args = message.content.substring(global.serverData[message.guild.id].prefix.length, message.content.length).split(' ');
         const cmd = args.shift().toLowerCase();
-        var k = '';
+
+        //Create Profile if doesn't exist
+        if(!global.profiles[message.author.id]){
+            global.profiles[message.author.id] = {balance: 0, tea_delay: 0,  inv: {}};
+            updateProfile();
+        }
 
         try{
             commands[cmd](args, message);
         }catch{}
+
     }
 
 

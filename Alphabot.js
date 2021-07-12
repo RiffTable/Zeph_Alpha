@@ -38,7 +38,7 @@ let testingMode = false;
 if(testingMode){
     client.on('message', (message) => {
     
-        message.react()
+        message.createdTimestamp
 
     });
 }else
