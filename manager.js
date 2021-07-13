@@ -53,7 +53,7 @@ function msgEmb(channel, title, desc){
     .setColor(colorEmb())
     .setDescription(desc);
     
-    channel.send(emb);
+    return channel.send(emb);
 }
 
 module.exports.msgEmb = msgEmb;

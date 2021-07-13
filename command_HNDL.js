@@ -64,7 +64,7 @@ module.exports = function(message){
         updateSConfig();
     }
     /*****************HANDLE ACTIVITIES*****************/
-    else if(global.activity[message.author.id])
+    else if(actHNDL.has(message.author.id))
     {
         actHNDL.handler(message);
     }
@@ -125,7 +125,7 @@ function number(args, message){
     }
 
 
-    global.activity[message.author.id] = {id: "number_game", args: {num: hnum, tries: 0}};
+    actHNDL.set(message.author.id, "number_game", {num: hnum, tries: 0});
     msgEmb(message.channel, 'THE NUMBER GAME', `A number has been set between ${min} to ${max}. You need to guess the number. Try guessing!`);
 }
 
