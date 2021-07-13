@@ -11,14 +11,14 @@
 
 
 const actHNDL = require('./activity_HNDL');
-const mainJS = require('./Alphabot');
+const scripts = require('./manager');
 
 
 //IMPORT COMMANDS
-//const { updateSConfig, updateProfile, msgEmb } = mainJS;
-const updateSConfig = mainJS.updateSConfig;
-const updateProfile = mainJS.updateProfile;
-const msgEmb = mainJS.msgEmb;
+//const { updateSConfig, updateProfile, msgEmb, colorEmb } = mainJS;
+const updateSConfig = scripts.updateSConfig;
+const updateProfile = scripts.updateProfile;
+const msgEmb = scripts.msgEmb;
 
 
 

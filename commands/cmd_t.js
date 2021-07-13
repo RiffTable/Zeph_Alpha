@@ -1,14 +1,15 @@
 const Discord = require('discord.js');
-const mainJS = require('../Alphabot');
+const scripts = require('../manager');
 
 const teas = require('./teas.json');
 
 
 
-//const { updateSConfig, updateProfile, msgEmb } = mainJS;
-const updateSConfig = mainJS.updateSConfig;
-const updateProfile = mainJS.updateProfile;
-const msgEmb = mainJS.msgEmb;
+//const { updateSConfig, updateProfile, msgEmb, colorEmb } = mainJS;
+const updateSConfig = scripts.updateSConfig;
+const updateProfile = scripts.updateProfile;
+const msgEmb = scripts.msgEmb;
+const colorEmb = scripts.colorEmb;
 
 
 
@@ -57,7 +58,6 @@ function shop(args, message){
     }
 
 
-    
     const shopEmb = new Discord.MessageEmbed()
     .setTitle("Welcome to the Tea Shop")
     .setColor(colorEmb())
