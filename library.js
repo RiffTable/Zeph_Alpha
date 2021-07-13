@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+/*const Discord = require('discord.js');
 
 
 
@@ -15,11 +15,8 @@ function msgEmb(channel, title, desc){
     channel.send(emb);
 }
 
-//module.exports.msgEmb = msgEmb;
-//module.exports.colorEmb = colorEmb;
-
 
 module.exports = {
     msgEmb,
     colorEmb
-};
+};*/

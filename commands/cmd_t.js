@@ -1,14 +1,14 @@
 const Discord = require('discord.js');
-const scripts = require('../library');
+const mainJS = require('../Alphabot');
 
 const teas = require('./teas.json');
 
-//----------------
-const fs = require('fs');
-//----------------
 
-const msgEmb = scripts.msgEmb;
-const colorEmb = scripts.colorEmb;
+
+//const { updateSConfig, updateProfile, msgEmb } = mainJS;
+const updateSConfig = mainJS.updateSConfig;
+const updateProfile = mainJS.updateProfile;
+const msgEmb = mainJS.msgEmb;
 
 
 
@@ -26,7 +26,6 @@ module.exports = function(args, message)
 }
 
 function shop(args, message){
-    //---------------------set description here!
     let desc = `There are many flavors of tea you can choose from.\n - Type \`${global.serverData[message.guild.id].prefix}t buy {id}\` to buy teas\n - Type \`${global.serverData[message.guild.id].prefix}t shop {PageNumber}\` to access other pages\n\n`;
     let pageNum;
     let pageLimit = 10;
@@ -44,12 +43,12 @@ function shop(args, message){
 
 
 
-    //Page item list size
+    /**Page item list size**/
     let start = (pageNum-1)*pageLimit;
     let listSize = teas.length - start;
     if(listSize > pageLimit) listSize = pageLimit;
 
-    //Loop for menu items
+    /**Loop for menu items**/
     for(let i = 0; i<listSize; i++){
         //---------------------TEA EMOTES
         //---------------------CURRENCY SIGN
@@ -75,13 +74,13 @@ function buy(args, message){
         return;
     }
 
-    //Money low
+    /**Money low**/
     if(global.profiles[message.author.id].balance < teas[buyID-1].price){
         msgEmb(message.channel, 'You don\'t have enough money to make purchase', `Get some money before you buy!`);
         return;
     }
     
-    //Countdown
+    /**Countdown**/
     if(global.profiles[message.author.id].tea_delay > message.createdTimestamp){
         msgEmb(message.channel, 'TOO SOON!', `You can't drink anymore tea yet! There is a 10 mins cooldown with ${Math.ceil((global.profiles[message.author.id].tea_delay - message.createdTimestamp)/1000)} seconds remaining`);
         return;
@@ -89,15 +88,10 @@ function buy(args, message){
     global.profiles[message.author.id].tea_delay = message.createdTimestamp + 10*60000;
     global.profiles[message.author.id].balance -= teas[buyID-1].price;
     
-    //----------------
-    fs.writeFile('./ProfileData.json', JSON.stringify(global.profiles, null, 2), (err) => {
-        if(err) console.log(err);
-        else console.log('---Updated Profile data');
-    });
-    //----------------
+    updateProfile();
     
     
-    //purchase message
+    /**purchase message**/
     const purchEmb = new Discord.MessageEmbed()
     .setTitle(`You Made a Purchase!`)
     .setColor(colorEmb())

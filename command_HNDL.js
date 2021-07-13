@@ -11,56 +11,20 @@
 
 
 const actHNDL = require('./activity_HNDL');
-
-
-const scripts = require('./library');
+const mainJS = require('./Alphabot');
 
 
 //IMPORT COMMANDS
-msgEmb = scripts.msgEmb;
+//const { updateSConfig, updateProfile, msgEmb } = mainJS;
+const updateSConfig = mainJS.updateSConfig;
+const updateProfile = mainJS.updateProfile;
+const msgEmb = mainJS.msgEmb;
 
-
-
-//Access the Server Configuration JSON file
-const fs = require('fs');
-global.serverData;
-fs.readFile('./ServerConfig.json', 'utf-8', (err, data) => {
-    if(err) console.log(err);
-    else{
-        global.serverData = JSON.parse(data);
-    }
-});
-
-//Access the Profile Data JSON file
-global.profiles;
-fs.readFile('./ProfileData.json', 'utf-8', (err, data) => {
-    if(err) console.log(err);
-    else{
-        global.profiles = JSON.parse(data);
-    }
-});
 
 
 /******CONSTANTS & VARIABLES******/
 const userID = '856191064393908234';
 
-
-
-
-/******FUNCTIONS******/
-function updateSConfig(){
-    fs.writeFile('./ServerConfig.json', JSON.stringify(global.serverData, null, 2), (err) => {
-        if(err) console.log(err);
-        else console.log('---Updated Server Config file');
-    });
-}
-
-function updateProfile(){
-    fs.writeFile('./ProfileData.json', JSON.stringify(global.profiles, null, 2), (err) => {
-        if(err) console.log(err);
-        else console.log('---Updated Profile data');
-    });
-}
 
 
 
