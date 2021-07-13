@@ -12,13 +12,9 @@
 
 const actHNDL = require('./activity_HNDL');
 const scripts = require('./manager');
+const { updateSConfig, updateProfile, msgEmb, colorEmb } = scripts;
 
 
-//IMPORT COMMANDS
-//const { updateSConfig, updateProfile, msgEmb, colorEmb } = mainJS;
-const updateSConfig = scripts.updateSConfig;
-const updateProfile = scripts.updateProfile;
-const msgEmb = scripts.msgEmb;
 
 
 
@@ -37,7 +33,9 @@ const t = require('./commands/cmd_t');
 const commands = {
     eh,
     emb,
-    t
+    t,
+    number,
+    guess: number
 };
 
 
@@ -100,6 +98,35 @@ function eh(args, message){
 
 function emb(args, message){
     msgEmb(message.channel, 'EMBEDDED MESSAGE', args.join(' '));
+}
+
+function number(args, message){
+    //Set random number
+    if(args.length === 0){
+        var min = 1;
+        var max = 100;
+
+        var hnum = Math.floor(Math.random()*100);
+    }else if(args.length === 2){
+        try{
+            var min = Math.floor(parseInt(args[0]));
+            var max = Math.floor(parseInt(args[1]));
+        }catch{
+            msgEmb(message.channel, 'Invalid Argument', 
+            `The arguments should be proper positive numbers`);
+        }
+        
+
+        var hnum = Math.floor(Math.random()*(max-min+1)+min-1);
+    }else{
+        msgEmb(message.channel, 'Invalid Argument Count', 
+            `Enter the min and max value to specify the range by typing \`${global.serverData[message.guild.id].prefix}number {min} {max}\`. The default is 1 to 100`);
+        return 0;
+    }
+
+
+    global.activity[message.author.id] = {id: "number_game", args: {num: hnum, tries: 0}};
+    msgEmb(message.channel, 'THE NUMBER GAME', `A number has been set between ${min} to ${max}. You need to guess the number. Try guessing!`);
 }
 
 

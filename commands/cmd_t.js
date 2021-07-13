@@ -1,15 +1,10 @@
 const Discord = require('discord.js');
 const scripts = require('../manager');
+const { updateSConfig, updateProfile, msgEmb, colorEmb } = scripts;
 
 const teas = require('./teas.json');
 
 
-
-//const { updateSConfig, updateProfile, msgEmb, colorEmb } = mainJS;
-const updateSConfig = scripts.updateSConfig;
-const updateProfile = scripts.updateProfile;
-const msgEmb = scripts.msgEmb;
-const colorEmb = scripts.colorEmb;
 
 
 
@@ -27,7 +22,7 @@ module.exports = function(args, message)
 }
 
 function shop(args, message){
-    let desc = `There are many flavors of tea you can choose from.\n - Type \`${global.serverData[message.guild.id].prefix}t buy {id}\` to buy teas\n - Type \`${global.serverData[message.guild.id].prefix}t shop {PageNumber}\` to access other pages\n\n`;
+    let desc = `There are many flavors of tea you can choose from.\n - Type \`${global.serverData[message.guild.id].prefix}t buy {id}\` to buy teas\n - Type \`${global.serverData[message.guild.id].prefix}t shop {PageNumber}\` to access other pages\n**NOTE: The tea will be consumed as soon as it is bought. Also you will get a 10 minute cooldown before you can drink another one.**\n\n`;
     let pageNum;
     let pageLimit = 10;
     let maxPage = Math.ceil(teas.length/pageLimit);
@@ -62,7 +57,7 @@ function shop(args, message){
     .setTitle("Welcome to the Tea Shop")
     .setColor(colorEmb())
     .setDescription(desc)
-    .setFooter(`page number ${pageNum}`);
+    .setFooter(`Page Number ${pageNum} | There are total ${teas.length} teas`);
     message.channel.send(shopEmb);
 }
 
@@ -70,7 +65,7 @@ function buy(args, message){
     if(args.length === 1){
         var buyID = parseInt(args[0]);
     }else{
-        //error
+        msgEmb(message.channel, 'Invalid Arguments Count', 'You need to specify the id of what you want to buy. Check the shop');
         return;
     }
 
