@@ -1,7 +1,7 @@
 /*****
 -------------------------------TODO-------------------------------
 
-
+* Get Item
 
 *****/
 
@@ -10,6 +10,12 @@
 // Invite Link: https://discord.com/api/oauth2/authorize?client_id=856191064393908234&permissions=2218131008&scope=bot
 // 
 // 
+
+//  ADDED
+//  -----
+//  
+
+//  help, prefix, minesweeper commands; money transfer method on manager; earning possible from number game
 
 //Initializations
 require('dotenv').config();

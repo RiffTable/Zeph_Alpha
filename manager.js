@@ -56,7 +56,34 @@ function msgEmb(channel, title, desc){
     return channel.send(emb);
 }
 
+function transferCash(from_ID, to_ID, amount){
+
+    if(amount === undefined){
+        console.log('--------------ATTEMPING TO TRANFER INVALID AMOUNT--------------');
+        return;
+    }
+    if(from_ID !== undefined)
+        global.profiles[from_ID].balance -= amount;
+    else
+        global.profiles["received"].balance += amount;
+
+    if(to_ID !== undefined)
+        global.profiles[to_ID].balance += amount;
+    else
+    global.profiles["spent"].balance += amount;
+    //T_store
+    //spent
+    //received
+    updateProfile();
+}
+
 module.exports.msgEmb = msgEmb;
 module.exports.colorEmb = colorEmb;
-
+module.exports.transferCash = transferCash;
+//module.exports.name = name;
+//module.exports.name = name;
+//module.exports.name = name;
+//module.exports.name = name;
+//module.exports.name = name;
+//module.exports.name = name;
 

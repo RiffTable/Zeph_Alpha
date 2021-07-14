@@ -1,5 +1,5 @@
 const scripts = require('./manager');
-const { updateSConfig, updateProfile, msgEmb, colorEmb } = scripts;
+const { updateSConfig, updateProfile, msgEmb, colorEmb, transferCash } = scripts;
 
 
 
@@ -25,7 +25,7 @@ module.exports.handler = function(message){
 
 
 function number_game(args, message){
-    //args = {num: hnum, tries: 0}
+    //args = {num: hnum, tries: 0, range: 100}
 
     if(parseInt(message.content)){
         let guess = parseInt(message.content);
@@ -35,7 +35,7 @@ function number_game(args, message){
             msgEmb(message.channel, 'HIGH!', `The number is **lower** than ${guess}`).then((msg)=>{
                 msg.delete({timeout: 20000});
             })
-            set(message.author.id, "number_game", {num: args.num, tries: args.tries+1});
+            activity[message.author.id].args.tries++;
             
         }else if(guess < args.num)
         {
@@ -43,14 +43,19 @@ function number_game(args, message){
             msgEmb(message.channel, 'LOW!', `The number is **higher** than ${guess}`).then((msg)=>{
                 msg.delete({timeout: 20000});
             })
-            set(message.author.id, "number_game", {num: args.num, tries: args.tries+1});
+            activity[message.author.id].args.tries++;
             
         }else
         {
             /*****CORRECT*****/
-            msgEmb(message.channel, 'CORRECT!', `You guessed the right number! :partying_face:\n The number was ${guess}\nYou tried ${args.tries+1} times`);
+            let reward = 7*Math.pow(Math.log2(args.range), 3)/(args.tries+1);
+            transferCash(undefined, message.author.id, Math.round(reward));
+
+            msgEmb(message.channel, 'CORRECT!', `You guessed the right number! :partying_face:\n The number was ${guess}\nYou tried ${args.tries+1} times within the range of ${args.range}\nYou earned ${Math.round(reward)}Å`);
             remove(message.author.id);
-            //------------------------------------------------rewards
+            //  level: log2(range)
+            //  (multiplier): 7
+            //  round((multiplier)*(level^3/tries))
 
         }
     }else{

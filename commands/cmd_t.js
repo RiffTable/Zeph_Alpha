@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const scripts = require('../manager');
-const { updateSConfig, updateProfile, msgEmb, colorEmb } = scripts;
+const { updateSConfig, updateProfile, msgEmb, colorEmb, transferCash } = scripts;
 
 const teas = require('./teas.json');
 
@@ -48,7 +48,7 @@ function shop(args, message){
     for(let i = 0; i<listSize; i++){
         //---------------------TEA EMOTES
         //---------------------CURRENCY SIGN
-        let line = `\`${teas[i+start].id} |\` :tea: **${teas[i+start].name}**-------${teas[i+start].price}\$\n`;
+        let line = `\`${teas[i+start].id} |\` :tea: **${teas[i+start].name}**-------${teas[i+start].price}Å\n`;
         desc += line;
     }
 
@@ -81,9 +81,7 @@ function buy(args, message){
         return;
     }
     global.profiles[message.author.id].tea_delay = message.createdTimestamp + 10*60000;
-    global.profiles[message.author.id].balance -= teas[buyID-1].price;
-    
-    updateProfile();
+    transferCash(message.author.id, "T_store", teas[buyID-1].price);
     
     
     /**purchase message**/
@@ -92,7 +90,7 @@ function buy(args, message){
     .setColor(colorEmb())
     .setDescription(`**You Have Brought the ${teas[buyID-1].name}**\n${teas[buyID-1].tasteDesc}`)
     //---------------------CURRENCY SIGN
-    .setFooter(`Your Payment: ${teas[buyID-1].price}$`);
+    .setFooter(`Your Payment: ${teas[buyID-1].price}Å | Your Current Balance: ${global.profiles[message.author.id].balance}Å`);
     message.channel.send(purchEmb);
 }
 
